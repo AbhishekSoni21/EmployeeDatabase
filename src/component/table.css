@@ -1,0 +1,57 @@
+.table-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-cell {
+  border: 1px solid;
+  width: 200px;
+  text-align: center;
+  background-color: #d1d1d2;
+  font-weight: 500;
+}
+
+.body-cell {
+  border: 1px solid;
+  width: 200px;
+  text-align: center;
+}
+
+.table-header-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.table-body-container {
+  display: flex;
+  flex-direction: row;
+  max-height: 100px;
+  overflow-y: overlay;
+}
+
+.row-container {
+  display: flex;
+  flex-direction: row;
+}
+
+/*width*/
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/*track*/
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/*Handle*/
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/*Handle on hover*/
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2fa7f7;
+}

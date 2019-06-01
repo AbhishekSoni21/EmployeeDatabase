@@ -15,7 +15,8 @@ class App extends Component {
       selectedDesignation: [],
       selectedSalary: [],
       selectedPlace: [],
-      mainData: []
+      mainData: [],
+      tableData: []
     };
   }
 
@@ -66,112 +67,161 @@ class App extends Component {
   };
 
   handleSubmit = () => {
-    let tempMainData = [];
-    if (this.state.mainData.length > 0) {
-      //For name filter
-      if (this.state.name.length > 0) {
-        console.log("name filter", this.state.name);
+    if (
+      this.state.name.length !== 0 ||
+      this.state.age.length !== 0 ||
+      this.state.selectedDesignation.length !== 0 ||
+      this.state.selectedPlace.length !== 0 ||
+      this.state.selectedSalary.length !== 0
+    ) {
+      let tempObj = {};
+      if (this.state.name.length !== 0) {
+        tempObj["name"] = this.state.name;
+      }
+      if (this.state.age.length !== 0) {
+        tempObj["age"] = this.state.age;
+      }
+      if (this.state.selectedDesignation.length !== 0) {
+        tempObj["designation"] = this.state.selectedDesignation[0];
+      }
+      if (this.state.selectedPlace.length !== 0) {
+        tempObj["address"] = this.state.selectedPlace[0];
+      }
+      if (this.state.selectedSalary.length !== 0) {
+        tempObj["salary"] = this.state.selectedSalary[0];
+      }
 
-        this.state.mainData.map(data => {
+      let tempArr = this.state.mainData.filter(data => {
+        debugger;
+        return Object.keys(tempObj).every(item => {
           if (
-            data.name.toLowerCase().indexOf(this.state.name.toLowerCase()) > -1
+            data[item].toString().toLowerCase() ===
+            tempObj[item].toString().toLowerCase()
           ) {
-            tempMainData.push(data);
+            return true;
           }
         });
-        this.setState({
-          mainData: tempMainData,
-          isSubmitClicked: true
-        });
-      }
+      });
 
-      //For age filter
-      else if (this.state.age.length > 0) {
-        let age = this.state.age;
-        console.log("age filter", this.state.age);
+      console.log("if part", tempObj);
+      this.setState({
+        isSubmitClicked: true,
+        tableData: tempArr
+      });
+    } else {
+      console.log("else part");
 
-        this.state.mainData.map(data => {
-          if (data.age.toString() === this.state.age) {
-            tempMainData.push(data);
-          }
-        });
-        this.setState({
-          mainData: tempMainData,
-          isSubmitClicked: true
-        });
-      }
-
-      //for designation filter
-      else if (this.state.selectedDesignation.length > 0) {
-        console.log(
-          "selectedDesignation filter",
-          this.state.selectedDesignation
-        );
-        let selectedDesignation = this.state.selectedDesignation;
-
-        selectedDesignation.map(data =>
-          this.state.mainData.map(value => {
-            if (value.designation.toLowerCase() === data.toLowerCase()) {
-              tempMainData.push(value);
-            }
-          })
-        );
-        this.setState({
-          mainData: tempMainData,
-          isSubmitClicked: true
-        });
-
-        // this.state.mainData.map(data => {
-        //   if (data.age.toString() === age) {
-        //     tempMainData.push(data);
-        //   }
-        // });
-        // this.setState({
-        //   mainData: tempMainData,
-        //   isSubmitClicked: true
-        // });
-      }
-
-      //for Salary filter
-      else if (this.state.selectedSalary.length > 0) {
-        console.log("selectedSalary filter", this.state.selectedSalary);
-        let selectedSalary = this.state.selectedSalary;
-
-        selectedSalary.map(data =>
-          this.state.mainData.map(value => {
-            if (value.salary === data) {
-              tempMainData.push(value);
-            }
-          })
-        );
-        this.setState({
-          mainData: tempMainData,
-          isSubmitClicked: true
-        });
-      }
-
-      //for Place filter
-      else if (this.state.selectedPlace.length > 0) {
-        console.log("selectedPlace filter", this.state.selectedPlace);
-        let selectedPlace = this.state.selectedPlace;
-
-        selectedPlace.map(data =>
-          this.state.mainData.map(value => {
-            if (value.address.toLowerCase() === data.toLowerCase()) {
-              tempMainData.push(value);
-            }
-          })
-        );
-        this.setState({
-          mainData: tempMainData,
-          isSubmitClicked: true
-        });
-      } else {
-        this.setState({
-          isSubmitClicked: true
-        });
-      }
+      this.setState({
+        isSubmitClicked: true,
+        tableData: this.state.mainData
+      });
     }
+    // let tempMainData = [];
+    // if (this.state.mainData.length > 0) {
+    //   //For name filter
+    //   if (this.state.name.length > 0) {
+    //     console.log("name filter", this.state.name);
+
+    //     this.state.mainData.map(data => {
+    //       if (
+    //         data.name.toLowerCase().indexOf(this.state.name.toLowerCase()) > -1
+    //       ) {
+    //         tempMainData.push(data);
+    //       }
+    //     });
+    //     this.setState({
+    //       mainData: tempMainData,
+    //       isSubmitClicked: true
+    //     });
+    //   }
+
+    //   //For age filter
+    //   else if (this.state.age.length > 0) {
+    //     let age = this.state.age;
+    //     console.log("age filter", this.state.age);
+
+    //     this.state.mainData.map(data => {
+    //       if (data.age.toString() === this.state.age) {
+    //         tempMainData.push(data);
+    //       }
+    //     });
+    //     this.setState({
+    //       mainData: tempMainData,
+    //       isSubmitClicked: true
+    //     });
+    //   }
+
+    //   //for designation filter
+    //   else if (this.state.selectedDesignation.length > 0) {
+    //     console.log(
+    //       "selectedDesignation filter",
+    //       this.state.selectedDesignation
+    //     );
+    //     let selectedDesignation = this.state.selectedDesignation;
+
+    //     selectedDesignation.map(data =>
+    //       this.state.mainData.map(value => {
+    //         if (value.designation.toLowerCase() === data.toLowerCase()) {
+    //           tempMainData.push(value);
+    //         }
+    //       })
+    //     );
+    //     this.setState({
+    //       mainData: tempMainData,
+    //       isSubmitClicked: true
+    //     });
+
+    //     // this.state.mainData.map(data => {
+    //     //   if (data.age.toString() === age) {
+    //     //     tempMainData.push(data);
+    //     //   }
+    //     // });
+    //     // this.setState({
+    //     //   mainData: tempMainData,
+    //     //   isSubmitClicked: true
+    //     // });
+    //   }
+
+    //   //for Salary filter
+    //   else if (this.state.selectedSalary.length > 0) {
+    //     console.log("selectedSalary filter", this.state.selectedSalary);
+    //     let selectedSalary = this.state.selectedSalary;
+
+    //     selectedSalary.map(data =>
+    //       this.state.mainData.map(value => {
+    //         if (value.salary === data) {
+    //           tempMainData.push(value);
+    //         }
+    //       })
+    //     );
+    //     this.setState({
+    //       mainData: tempMainData,
+    //       isSubmitClicked: true
+    //     });
+    //   }
+
+    //   //for Place filter
+    //   else if (this.state.selectedPlace.length > 0) {
+    //     console.log("selectedPlace filter", this.state.selectedPlace);
+    //     let selectedPlace = this.state.selectedPlace;
+
+    //     selectedPlace.map(data =>
+    //       this.state.mainData.map(value => {
+    //         if (value.address.toLowerCase() === data.toLowerCase()) {
+    //           tempMainData.push(value);
+    //         }
+    //       })
+    //     );
+    //     this.setState({
+    //       mainData: tempMainData,
+    //       isSubmitClicked: true
+    //     });
+    //   } else {
+    //     this.setState({
+    //       isSubmitClicked: true
+    //     });
+    //   }
+    // }
   };
 
   fetchData = async () => {
@@ -257,12 +307,12 @@ class App extends Component {
             "this.state.isSubmitClicked",
             this.state.isSubmitClicked
           )}
-          {console.log("this.state.mainData", this.state.mainData)}
+          {console.log("this.state.tableData", this.state.tableData)}
           {this.state.isSubmitClicked ? (
-            this.state.mainData.length === 0 ? (
+            this.state.tableData.length === 0 ? (
               "No Data Found"
             ) : (
-              <Table data={this.state.mainData} />
+              <Table data={this.state.tableData} />
             )
           ) : (
             ""

@@ -5,7 +5,7 @@ class Dropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedValue: this.props.selectedValue,
+      selectedValue: "",
       collapse: "hide",
       enableSearch: false,
       searchList: [],
@@ -15,8 +15,8 @@ class Dropdown extends Component {
   }
 
   handleSelection = value => {
-    let tempArray = this.state.selectedValue;
-    if (this.state.selectedValue.indexOf(value) === -1) {
+    let tempArray = this.props.selectedValue;
+    if (this.props.selectedValue.indexOf(value) === -1) {
       tempArray.push(value);
     } else {
       tempArray = tempArray.filter(data => data !== value);
@@ -31,7 +31,6 @@ class Dropdown extends Component {
   };
 
   handleAllClick = () => {
-    debugger;
     var item = document.getElementsByName("filter");
     for (var i = 0; i < item.length; i++) {
       if (item[i].type === "checkbox") {
@@ -62,7 +61,7 @@ class Dropdown extends Component {
   };
 
   handleAllSelection = () => {
-    if (this.state.selectedValue.length === this.props.filterValue.length) {
+    if (this.props.selectedValue.length === this.props.filterValue.length) {
       console.log("if part of all selection");
       let item = document.getElementsByName("filter");
       for (let i = 0; i < item.length; i++) {
@@ -139,68 +138,73 @@ class Dropdown extends Component {
     //   });
   };
 
-  // handleDomGeneration = () => {
-  //   let tempArr = [];
-  //   if (this.state.enableSearch) {
-  //     this.props.filterValue.map((value, index) => {
-  //       if (value.indexOf(this.state.searchValue) > -1) {
-  //         tempArr.push(
-  //           <label className="checkbox-container" key={index}>
-  //             <span>
-  //               <input
-  //                 checked={
-  //                   this.props.selectedValue.indexOf(value) > -1 ? true : false
-  //                 }
-  //                 readOnly
-  //                 type="checkbox"
-  //                 name="filter"
-  //                 onClick={() => this.handleSelection(value)}
-  //               />
-  //               {value}
-  //             </span>
-  //           </label>
-  //         );
-  //       }
-  //       return true;
-  //     });
-  //   } else {
-  //     if (this.props.filterValue.length > 2) {
-  //       tempArr.push(
-  //         <span key="All">
-  //           <input
-  //             checked={false}
-  //             readOnly
-  //             type="checkbox"
-  //             name="filter"
-  //             onClick={() => this.handleAllSelection()}
-  //           />
-  //           {"All"}
-  //         </span>
-  //       );
-  //     } else {
-  //       tempArr.push(<span key="empty" />);
-  //     }
-  //     this.props.filterValue.map((value, index) => {
-  //       tempArr.push(
-  //         <label className="checkbox-container" key={index}>
-  //           <span>
-  //             <input
-  //               checked={
-  //                 this.props.selectedValue.indexOf(value) > -1 ? true : false
-  //               }
-  //               readOnly
-  //               type="checkbox"
-  //               name="filter"
-  //               onClick={() => this.handleSelection(value)}
-  //             />
-  //             {value}
-  //           </span>
-  //         </label>
-  //       );
-  //     });
-  //   }
-  //   return tempArr;
-  // };
+  handleDomGeneration = () => {
+    let tempArr = [];
+    if (this.state.enableSearch) {
+      this.props.filterValue.map((value, index) => {
+        if (value.indexOf(this.state.searchValue) > -1) {
+          tempArr.push(
+            <label className="checkbox-container" key={index}>
+              <span>
+                <input
+                  checked={
+                    this.props.selectedValue.indexOf(value) > -1 ? true : false
+                  }
+                  readOnly
+                  type="checkbox"
+                  name="filter"
+                  onClick={() => this.handleSelection(value)}
+                />
+                {value}
+              </span>
+            </label>
+          );
+        }
+        return true;
+      });
+    } else {
+      if (this.props.filterValue.length > 2) {
+        tempArr.push(
+          <span key="All">
+            <input
+              readOnly
+              type="checkbox"
+              name="filter"
+              onClick={() => this.handleAllSelection()}
+              checked={
+                this.props.selectedValue.length ===
+                this.props.filterValue.length
+                  ? true
+                  : false
+              }
+            />
+            {"All"}
+          </span>
+        );
+      } else {
+        tempArr.push(<span key="empty" />);
+      }
+      this.props.filterValue.map((value, index) => {
+        tempArr.push(
+          <label className="checkbox-container" key={index}>
+            <span>
+              <input
+                checked={
+                  this.props.selectedValue.indexOf(value) > -1 ? true : false
+                }
+                readOnly
+                type="checkbox"
+                name="filter"
+                onClick={() => this.handleSelection(value)}
+              />
+              {value}
+            </span>
+          </label>
+        );
+      });
+    }
+    return tempArr;
+  };
 
   render() {
     // console.log("this.state.selectedValue", this.state.selectedValue);
@@ -214,13 +218,13 @@ class Dropdown extends Component {
             className="filter-value-container"
             onClick={this.handleDropdownToggle}
           >
-            {this.state.selectedValue.length === this.props.filterValue.length
+            {this.props.selectedValue.length === this.props.filterValue.length
               ? "(All)"
-              : this.state.selectedValue.length > 1
+              : this.props.selectedValue.length > 1
               ? "Multiple Values"
-              : this.state.selectedValue.length === 0
+              : this.props.selectedValue.length === 0
               ? "Select a value"
-              : this.state.selectedValue[0]}
+              : this.props.selectedValue[0]}
             {this.state.collapse.length > 0 ? (
               <div className="uparrow">
                 <img
@@ -251,7 +255,7 @@ class Dropdown extends Component {
                 />
               </div>
             }
-            {this.props.filterValue.length > 2 ? (
+            {/* {this.props.filterValue.length > 2 ? (
               <span>
                 <input
                   type="checkbox"
@@ -259,6 +263,12 @@ class Dropdown extends Component {
                   onClick={() => {
                     this.handleAllSelection();
                   }}
+                  checked={
+                    this.props.selectedValue.length ===
+                    this.props.filterValue.length
+                      ? true
+                      : false
+                  }
                 />
                 {"All"}
               </span>
@@ -273,12 +283,19 @@ class Dropdown extends Component {
                       type="checkbox"
                       name="filter"
                       onClick={() => this.handleSelection(value)}
+                      checked={
+                        this.props.selectedValue.indexOf(value) > -1
+                          ? true
+                          : false
+                      }
                     />
                     {value}
                   </span>
                 </label>
               );
-            })}
+            })} */}
+
+            {this.handleDomGeneration()}
 
             <div className="button-container">
               <button onClick={this.handleAllClick}>Select All</button>

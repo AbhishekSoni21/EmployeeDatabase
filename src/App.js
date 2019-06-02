@@ -82,37 +82,59 @@ class App extends Component {
         tempObj["age"] = this.state.age;
       }
       if (this.state.selectedDesignation.length !== 0) {
-        tempObj["designation"] = this.state.selectedDesignation[0];
+        tempObj["designation"] = this.state.selectedDesignation;
       }
       if (this.state.selectedPlace.length !== 0) {
-        tempObj["address"] = this.state.selectedPlace[0];
+        tempObj["address"] = this.state.selectedPlace;
       }
       if (this.state.selectedSalary.length !== 0) {
-        tempObj["salary"] = this.state.selectedSalary[0];
+        tempObj["salary"] = this.state.selectedSalary;
       }
 
       let tempArr = this.state.mainData.filter(data => {
-        debugger;
         return Object.keys(tempObj).every(item => {
           debugger;
-          if (item === "name") {
-            var name = tempObj[item].toString().toLowerCase();
-            if (
-              data[item]
-                .toString()
-                .toLowerCase()
-                .indexOf(name) > -1
-            ) {
-              return true;
-            }
-          } else {
-            if (
-              data[item].toString().toLowerCase() ===
-              tempObj[item].toString().toLowerCase()
-            ) {
-              return true;
-            }
+          console.log("temprr", tempArr);
+          var name = tempObj[item].toString().toLowerCase();
+          if (
+            data[item]
+              .toString()
+              .toLowerCase()
+              .indexOf(name) > -1
+          ) {
+            return true;
           }
+
+          // if (item === "name") {
+          //   var name = tempObj[item].toString().toLowerCase();
+          //   if (
+          //     data[item]
+          //       .toString()
+          //       .toLowerCase()
+          //       .indexOf(name) > -1
+          //   ) {
+          //     return true;
+          //   }
+          // } else {
+          //   if (tempObj[item].length === 1) {
+          //     if (
+          //       data[item].toString().toLowerCase() ===
+          //       tempObj[item].toString().toLowerCase()
+          //     ) {
+          //       return true;
+          //     }
+          //   } else {
+          //     tempObj[item].some(val => {
+          //       console.log("val", val);
+          //       if (
+          //         data[item].toString().toLowerCase() ===
+          //         val.toString().toLowerCase()
+          //       ) {
+          //         return true;
+          //       }
+          //     });
+          //   }
+          // }
         });
       });
 

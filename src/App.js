@@ -94,11 +94,24 @@ class App extends Component {
       let tempArr = this.state.mainData.filter(data => {
         debugger;
         return Object.keys(tempObj).every(item => {
-          if (
-            data[item].toString().toLowerCase() ===
-            tempObj[item].toString().toLowerCase()
-          ) {
-            return true;
+          debugger;
+          if (item === "name") {
+            var name = tempObj[item].toString().toLowerCase();
+            if (
+              data[item]
+                .toString()
+                .toLowerCase()
+                .indexOf(name) > -1
+            ) {
+              return true;
+            }
+          } else {
+            if (
+              data[item].toString().toLowerCase() ===
+              tempObj[item].toString().toLowerCase()
+            ) {
+              return true;
+            }
           }
         });
       });

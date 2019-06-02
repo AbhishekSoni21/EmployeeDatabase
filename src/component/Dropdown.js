@@ -142,7 +142,9 @@ class Dropdown extends Component {
     let tempArr = [];
     if (this.state.enableSearch) {
       this.props.filterValue.map((value, index) => {
-        if (value.indexOf(this.state.searchValue) > -1) {
+        if (
+          value.toLowerCase().indexOf(this.state.searchValue.toLowerCase()) > -1
+        ) {
           tempArr.push(
             <label className="checkbox-container" key={index}>
               <span>

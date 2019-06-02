@@ -95,14 +95,31 @@ class App extends Component {
         return Object.keys(tempObj).every(item => {
           debugger;
           console.log("temprr", tempArr);
-          var name = tempObj[item].toString().toLowerCase();
-          if (
-            data[item]
-              .toString()
-              .toLowerCase()
-              .indexOf(name) > -1
-          ) {
-            return true;
+          if (tempObj[item].length < 2 || (item === "name" || item === "age")) {
+            console.log("single value");
+
+            var name = tempObj[item].toString().toLowerCase();
+            if (
+              data[item]
+                .toString()
+                .toLowerCase()
+                .indexOf(name) > -1
+            ) {
+              return true;
+            }
+          } else {
+            console.log("multiple value");
+
+            var list = tempObj[item];
+            console.log("list", list);
+            return list.some(val => {
+              if (
+                val.toString().toLowerCase() ===
+                data[item].toString().toLowerCase()
+              ) {
+                return true;
+              }
+            });
           }
 
           // if (item === "name") {
